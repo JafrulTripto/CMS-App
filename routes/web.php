@@ -13,6 +13,7 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Post;
+
 Route::get('/', function () {
     return view('welcome');
 });
@@ -41,7 +42,7 @@ Route::get('/insert2',function (){
 Route::get('/search',function (){
    $posts =  Post::all();
 
-       return $posts[0]->title;
+       return $posts;
 
 });
 Route::get('/softDelete', function (){
@@ -49,3 +50,7 @@ Route::get('/softDelete', function (){
 });
 
 
+
+Auth::routes();
+
+Route::get('/home', 'HomeController@index')->name('home');
