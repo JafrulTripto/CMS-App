@@ -23,7 +23,7 @@ class TodoController extends Controller
     public function index()
     {
         //get
-        $todo = Todo::paginate(15);
+        $todo = Todo::paginate(45);
 
         return TodoResource::collection($todo);
 
@@ -50,12 +50,14 @@ class TodoController extends Controller
         $todo = new Todo;
         $todo->title = $request->input('title');
         $todo->description = $request->input('description');
-        $todo->start_time = $request->input('start_time');
-        $todo->end_time = $request->input('end_time');
+        $todo->start_time = $request->input('startDate');
+        $todo->end_time = $request->input('endDate');
         $todo->status = $request->input('status');
 
         if ($todo->save()) {
-            return new TodoResource($todo);
+            $todo = Todo::paginate(45);
+
+            return TodoResource::collection($todo);
         }
     }
 
@@ -101,7 +103,6 @@ class TodoController extends Controller
         $todo->description = $request->input('description');
         $todo->start_time = $request->input('start_time');
         $todo->end_time = $request->input('end_time');
-        $todo->status = $request->input('status');
 
         if ($todo->save()) {
             return new TodoResource($todo);
@@ -119,7 +120,9 @@ class TodoController extends Controller
         $todo = Todo::findOrFail($id);
 
         if ($todo->delete()) {
-            return new TodoResource($todo);
+            $todo = Todo::paginate(45);
+
+            return TodoResource::collection($todo);
         }
 
     }
