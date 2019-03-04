@@ -19,5 +19,5 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 });
 
 //List of TODO
-
+Route::post('update_status/{id}','TodoController@updateStatus');
 Route::resource('todo','TodoController');

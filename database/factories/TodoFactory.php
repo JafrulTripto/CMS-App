@@ -8,6 +8,6 @@ $factory->define(App\Todo::class, function (Faker $faker) {
         'description'=>$faker->text(200),
         'start_time'=> $faker->dateTime(),
         'end_time'=>$faker->dateTime(),
-        'status'=>$faker->randomElement(['On progress','done'])
+        'status'=>$faker->randomElement(['On progress','Completed'])
     ];
 });

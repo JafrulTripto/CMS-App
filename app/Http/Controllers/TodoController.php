@@ -85,7 +85,6 @@ class TodoController extends Controller
     public function edit($id)
     {
         $todo = Todo::find($id);
-
         return new TodoResource($todo);
     }
 
@@ -105,7 +104,8 @@ class TodoController extends Controller
         $todo->end_time = $request->input('end_time');
 
         if ($todo->save()) {
-            return new TodoResource($todo);
+            $todo = Todo::paginate(45);
+            return TodoResource::collection($todo);
         }
     }
 
@@ -125,5 +125,13 @@ class TodoController extends Controller
             return TodoResource::collection($todo);
         }
 
+    }
+
+    public function updateStatus(Request $request, $id)
+    {
+        $todo = Todo::findOrFail($id);
+        $todo->status = $request->input('status');
+        $todo->save();
+        return new TodoResource($todo);
     }
 }
