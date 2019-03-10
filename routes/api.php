@@ -14,9 +14,9 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::middleware('auth:api')->get('/user', function (Request $request) {
-    return $request->user();
-});
+//Route::middleware('auth:api')->get('/user', function (Request $request) {
+//    return $request->user();
+//});
 
 //List of TODO
 Route::post('createUser','RegisterController@store');
@@ -24,19 +24,10 @@ Route::post('update_status/{id}','TodoController@updateStatus');
 Route::resource('todo','TodoController');
 
 
+Route::post('login', 'AuthController@login');
 
-
-Route::group([
-
-    'middleware' => 'api',
-    'prefix' => 'auth'
-
-], function ($router) {
-
-    Route::post('login', 'AuthController@login');
+Route::group(['middleware' => 'jwt.verify','prefix' => 'auth'], function ($router) {
     Route::post('logout', 'AuthController@logout');
     Route::post('refresh', 'AuthController@refresh');
     Route::post('me', 'AuthController@me');
-
-
 });
