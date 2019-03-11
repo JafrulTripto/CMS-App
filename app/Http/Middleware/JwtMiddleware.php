@@ -3,6 +3,7 @@
 namespace App\Http\Middleware;
 
 use Closure;
+use GuzzleHttp\Psr7\Response;
 use Tymon\JWTAuth\Facades\JWTAuth;
 
 class JwtMiddleware
@@ -16,9 +17,12 @@ class JwtMiddleware
      */
     public function handle($request, Closure $next)
     {
+        if (!$token = $request->input('token')) {
+            return response()->json(['error' => 'Token Not provided'], 400);
+        }
         try {
             $user = JWTAuth::parseToken()->authenticate();
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             if ($e instanceof \Tymon\JWTAuth\Exceptions\TokenInvalidException){
                 return response()->json(['status' => 'Token is Invalid']);
             }else if ($e instanceof \Tymon\JWTAuth\Exceptions\TokenExpiredException){

@@ -13,13 +13,15 @@ class CreateTodoTable extends Migration
      */
     public function up()
     {
-        Schema::create('todo', function (Blueprint $table) {
+        Schema::create('todos', function (Blueprint $table) {
             $table->increments('id');
+            $table->integer('user_id');
             $table->string('title');
             $table->text('description');
             $table->dateTime('start_time');
             $table->dateTime('end_time');
             $table->string('status');
+            $table->dateTime('deleted_at')->nullable();
             $table->timestamps();
         });
     }

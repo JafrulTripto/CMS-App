@@ -83,6 +83,6 @@ class AuthController extends Controller
         ]);
     }
     public function guard(){
-        return \Auth::Guard('api');
+        return Auth::Guard('api');
     }
 }

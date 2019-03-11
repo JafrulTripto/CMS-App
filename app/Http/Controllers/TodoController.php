@@ -3,10 +3,12 @@
 namespace App\Http\Controllers;
 
 
+use App\User;
 use Illuminate\Http\Request;
 use App\Http\Requests;
 use App\Todo;
 use App\Http\Resources\Todo as TodoResource;
+use Tymon\JWTAuth\Facades\JWTAuth;
 
 class TodoController extends Controller
 {
@@ -20,10 +22,11 @@ class TodoController extends Controller
      *
      * @return \Illuminate\Http\Resources\Json\AnonymousResourceCollection
      */
-    public function index()
+    public function index(Request $request)
     {
-        //get
-        $todo = Todo::paginate(45);
+        $user = JWTAuth::toUser($request->token);
+
+        $todo = Todo::where('user_id', $user->id)->paginate(45);
 
         return TodoResource::collection($todo);
 
@@ -47,8 +50,10 @@ class TodoController extends Controller
      */
     public function store(Request $request)
     {
+
         $todo = new Todo;
         $todo->title = $request->input('title');
+        $todo->user_id = $request->input('user_id');
         $todo->description = $request->input('description');
         $todo->start_time = $request->input('startDate');
         $todo->end_time = $request->input('endDate');
@@ -134,4 +139,5 @@ class TodoController extends Controller
         $todo->save();
         return new TodoResource($todo);
     }
+
 }

@@ -20,13 +20,18 @@ use Illuminate\Support\Facades\Route;
 
 //List of TODO
 Route::post('createUser','RegisterController@store');
-Route::post('update_status/{id}','TodoController@updateStatus');
-Route::resource('todo','TodoController');
-
-
 Route::post('login', 'AuthController@login');
+Route::get('findPosts/{id}','TodoController@showUserPost');
+
+
+Route::group(['middleware' => 'jwt.verify'], function ($router) {
+
+    Route::resource('todo','TodoController');
+    Route::post('update_status/{id}','TodoController@updateStatus');
+});
 
 Route::group(['middleware' => 'jwt.verify','prefix' => 'auth'], function ($router) {
+
     Route::post('logout', 'AuthController@logout');
     Route::post('refresh', 'AuthController@refresh');
     Route::post('me', 'AuthController@me');

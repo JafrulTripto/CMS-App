@@ -12,14 +12,14 @@
 */
 
 use Illuminate\Support\Facades\Route;
-use App\Post;
+use App\Todo;
 
 Route::get('/', function () {
     return view('welcome');
 });
 Route::get('/show',function (){
 
-    $posts=Post::all();
+    $posts=Todo::all();
 
     foreach ($posts as $post){
         return $post->title;
@@ -27,7 +27,7 @@ Route::get('/show',function (){
 });
 
 Route::get('/insert',function (){
-    $posts = new Post;
+    $posts = new Todo;
 
     $posts->title = "Hi there";
     $posts->description = "How are You";
@@ -36,17 +36,17 @@ Route::get('/insert',function (){
 });
 
 Route::get('/insert2',function (){
-    Post::create(['title'=>'Hi I am Tripto','description'=>'I am a good boy']);
+    Todo::create(['title'=>'Hi I am Tripto','description'=>'I am a good boy']);
 });
 
 Route::get('/search',function (){
-   $posts =  Post::all();
+   $posts =  Todo::all();
 
        return $posts;
 
 });
 Route::get('/softDelete', function (){
-    Post::find(4)->delete();
+    Todo::find(4)->delete();
 });
 
 
