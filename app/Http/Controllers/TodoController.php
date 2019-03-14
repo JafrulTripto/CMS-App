@@ -26,9 +26,9 @@ class TodoController extends Controller
     {
         $user = JWTAuth::toUser($request->token);
 
-        $todo = Todo::where('user_id', $user->id)->paginate(45);
+        $todos = Todo::where('user_id', $user->id)->paginate(45);
 
-        return TodoResource::collection($todo);
+        return TodoResource::collection($todos);
 
     }
 
